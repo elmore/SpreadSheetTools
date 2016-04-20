@@ -1,0 +1,6 @@
+KPI,Target,Mobile,Desktop,Admin
+Uptime,99.99%,99.95%,100%,100%
+Tests (Total),0
+Processing Time,< 200 ms,137.9,153.1,59.6
+Error Rate %,< 0.1%,0.34%,0.43%,0.03%
+Download Time (New Relic),< 2.0,3.22,3.13,1.27
