@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace Erm.Reporting.Transformer
+namespace SpreadSheetTools.Transformer
 {
     public static class IndexParser
     {

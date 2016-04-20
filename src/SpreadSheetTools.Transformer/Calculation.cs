@@ -1,5 +1,5 @@
 ﻿
-namespace Erm.Reporting.Transformer
+namespace SpreadSheetTools.Transformer
 {
     public abstract class Calculation
     {

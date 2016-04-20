@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Erm.Reporting.Transformer
+namespace SpreadSheetTools.Transformer
 {
     public class AlphaIndex
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace Erm.Reporting.Transformer.Tests
+namespace SpreadSheetTools.Transformer.Tests
 {
     [TestFixture]
     public class CsvTests
