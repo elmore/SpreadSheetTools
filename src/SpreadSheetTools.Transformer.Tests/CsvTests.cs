@@ -7,7 +7,7 @@ namespace SpreadSheetTools.Transformer.Tests
     public class CsvTests
     {
         [Test]
-        public void CsvLoadsString()
+        public void LoadsString()
         {
             var csv = Csv.Parse("1,2,3,4");
 
@@ -15,7 +15,7 @@ namespace SpreadSheetTools.Transformer.Tests
         }
 
         [Test]
-        public void CsvLoadsMultiRowString()
+        public void LoadsMultiRowString()
         {
             var s = string.Format("1,2,3,4{0}5,6,7,8{0}9,10,11,12", Environment.NewLine);
 
@@ -30,7 +30,7 @@ namespace SpreadSheetTools.Transformer.Tests
         [TestCase("B4", "8")]
         [TestCase("C4", "12")]
         [TestCase("C1", "9")]
-        public void CsvIndexesByExcelStyleIndex(string coord, string val)
+        public void IndexesByExcelStyleIndex(string coord, string val)
         {
             var s = string.Format("1,2,3,4{0}5,6,7,8{0}9,10,11,12", Environment.NewLine);
 
@@ -40,15 +40,16 @@ namespace SpreadSheetTools.Transformer.Tests
         }
 
         [Test]
-        public void CsvShouldSumRange()
+        public void ShouldRespectOrderOfOperations()
         {
             var s = string.Format("1,2,3,4{0}5,6,7,8{0}9,10,11,12", Environment.NewLine);
 
             var csv = Csv.Parse(s);
 
-            int total = csv.Take("A1").Sum("B2").Eval();
+            // 3 + 6 * 2
+            int total = csv.Take("A3").Sum("B2").Multi("A2").Eval();
 
-            Assert.AreEqual(7, total);
+            Assert.AreEqual(15, total);
         }
     }
 }
