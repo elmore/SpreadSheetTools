@@ -46,7 +46,7 @@ namespace SpreadSheetTools.Transformer.Tests
 
             var csv = Csv.Parse(s);
 
-            int total = csv.Take("A1").SumWith("B2").Calculate();
+            int total = csv.Take("A1").Sum("B2").Eval();
 
             Assert.AreEqual(7, total);
         }

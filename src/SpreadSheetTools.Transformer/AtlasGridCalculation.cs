@@ -6,7 +6,9 @@ namespace SpreadSheetTools.Transformer
     /// version of Calculation that uses the 'atlas grid' coordinates that excel uses.
     /// the Eval method gets handed the data to run the calculation on:
     /// 
-    /// 	var delayed = a.Sum("a1").Sum("a2").Sub("b6").Multi("c9");
+    ///     var unit = Calculation.Value("g3");
+    /// 
+    /// 	var delayed = unit.Sum("a1").Sum("a2").Sub("b6").Multi("c9");
     ///
     ///     delayed.Eval(csv).Dump();
     ///     
@@ -26,7 +28,7 @@ namespace SpreadSheetTools.Transformer
         protected AtlasGridCalculation(string key, AtlasGridCalculation chain = null)
         {
             _key = key;
-            _chained = chain;
+            _chained = chain;           
         }
 
         public static Unit Value(string key)

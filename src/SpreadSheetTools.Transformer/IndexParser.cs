@@ -30,5 +30,17 @@ namespace SpreadSheetTools.Transformer
             // zero indexed
             return new Tuple<int, int>(x.ToInt32() - 1, y - 1);
         }
+
+        public static string Generate(int x, int y)
+        {
+            AlphaIndex xindex;
+            if(!AlphaIndex.TryParse(x, out xindex))
+            {
+                throw new ArgumentException(string.Format("The int '{0}' could not be parsed into x,y coordinates", x));
+            }
+
+            return string.Format("{0}{1}", xindex, y);
+
+        }
     }
 }

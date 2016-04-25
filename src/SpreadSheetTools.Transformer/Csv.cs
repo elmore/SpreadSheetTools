@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SpreadSheetTools.Transformer
 {
@@ -37,8 +38,6 @@ namespace SpreadSheetTools.Transformer
             get { return _table.Length; }
         }
 
-
-
         public string Get(string indexStr)
         {
             Tuple<int, int> coord = IndexParser.Parse(indexStr);
@@ -46,22 +45,27 @@ namespace SpreadSheetTools.Transformer
             return _table[coord.Item1, coord.Item2];
         }
 
-        public Csv Take(string indexStr)
+        public LoadedCalculation Take(string indexStr)
         {
-            //Get(indexStr).
+            var data = new Dictionary<string, int>();
 
-            throw new NotImplementedException();
+            for (int i = 0; i < _table.GetLength(0); i++)
+            {
+                for (int j = 0; j < _table.GetLength(1); j++)
+                {
+                    int x = i + 1;
+                    int y = j + 1;
+
+                    string indexer = IndexParser.Generate(x, y);
+
+                    // unsafe
+                    int val = Int32.Parse(_table[i, j]);
+
+                    data.Add(indexer, val);
+                }
+            }
+
+            return new LoadedCalculation(data).Value(indexStr);
         }
-
-        public Csv SumWith(string indexStr)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int Calculate()
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }
