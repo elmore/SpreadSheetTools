@@ -27,19 +27,22 @@ namespace SpreadSheetTools.Transformer
                 throw new ArgumentException(string.Format("The string '{0}' could not be parsed into x,y coordinates", indexStr));
             }
 
-            // zero indexed
+            // - 1 because zero indexed api
             return new Tuple<int, int>(x.ToInt32() - 1, y - 1);
         }
 
         public static string Generate(int x, int y)
-        {
+        {            
             AlphaIndex xindex;
-            if(!AlphaIndex.TryParse(x, out xindex))
+
+            // + 1 because zero indexed api
+            if(!AlphaIndex.TryParse(x + 1, out xindex))
             {
                 throw new ArgumentException(string.Format("The int '{0}' could not be parsed into x,y coordinates", x));
             }
 
-            return string.Format("{0}{1}", xindex, y);
+            // + 1 because zero indexed api
+            return string.Format("{0}{1}", xindex, y + 1);
 
         }
     }

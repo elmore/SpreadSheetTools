@@ -7,13 +7,12 @@ namespace SpreadSheetTools.Transformer
     public class Sheet
     {
         private Dictionary<string, int> _data;
-        private AtlasGridCalculation _calc;
+        private readonly Dictionary<string, AtlasGridCalculation> _calcs = new Dictionary<string, AtlasGridCalculation>();
 
         public void Define(string dest, string calcStr)
         {
-            Tuple<int, int> index = IndexParser.Parse(dest);
-
-            var re = new Regex(@"AVERAGE\(([a-z]+\d+):([a-z]+\d+)\)", RegexOptions.IgnoreCase);
+            //var re = new Regex(@"AVERAGE\(([a-z]+\d+):([a-z]+\d+)\)", RegexOptions.IgnoreCase);
+            var re = new Regex(@"SUM\(([a-z]+\d+):([a-z]+\d+)\)", RegexOptions.IgnoreCase);
 
             var m = re.Match(calcStr);
 
@@ -25,14 +24,15 @@ namespace SpreadSheetTools.Transformer
 
             AtlasGridCalculation calc = AtlasGridCalculation.Value(start);
 
-            for (var i = indexStart.Item2+1; i < indexEnd.Item2; i++)
+            // + 1 because we have added the first value already above..
+            for (var i = indexStart.Item2 + 1; i <= indexEnd.Item2; i++)
             {
                 string grid = IndexParser.Generate(indexStart.Item1, i);
 
                 calc = calc.Sum(grid);
             }
 
-            _calc = calc;
+            _calcs.Add(dest, calc);
         }
 
         public void Load(Dictionary<string, int> data)
@@ -42,7 +42,13 @@ namespace SpreadSheetTools.Transformer
 
         public int Get(string coord)
         {
-            return _calc.Eval(_data);
+            AtlasGridCalculation calc;
+            if (_calcs.TryGetValue(coord, out calc))
+            {
+                _data[coord] = calc.Eval(_data);
+            }
+
+            return _data[coord];
         }
     }
 }
