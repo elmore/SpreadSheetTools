@@ -41,8 +41,10 @@
   <ItemGroup>
     <Compile Include="AlphaIndex.cs" />
     <Compile Include="AtlasGridCalculation.cs" />
+    <Compile Include="Average.cs" />
     <Compile Include="Calculation.cs" />
     <Compile Include="Csv.cs" />
+    <Compile Include="ICalculation.cs" />
     <Compile Include="IndexParser.cs" />
     <Compile Include="LoadedCalculation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,29 +7,37 @@ namespace SpreadSheetTools.Transformer
     public class Sheet
     {
         private Dictionary<string, int> _data;
-        private readonly Dictionary<string, AtlasGridCalculation> _calcs = new Dictionary<string, AtlasGridCalculation>();
+        private readonly Dictionary<string, ICalculation> _calcs = new Dictionary<string, ICalculation>();
 
         public void Define(string dest, string calcStr)
         {
-            //var re = new Regex(@"AVERAGE\(([a-z]+\d+):([a-z]+\d+)\)", RegexOptions.IgnoreCase);
-            var re = new Regex(@"SUM\(([a-z]+\d+):([a-z]+\d+)\)", RegexOptions.IgnoreCase);
+            // pull out into command pattern
+
+            var re = new Regex(@"(SUM|AVERAGE)\(([a-z]+\d+):([a-z]+\d+)\)", RegexOptions.IgnoreCase);
 
             var m = re.Match(calcStr);
 
-            string start = m.Groups[1].Value;
-            string end = m.Groups[2].Value;
+            string command = m.Groups[1].Value;
+            string start = m.Groups[2].Value;
+            string end = m.Groups[3].Value;
 
             Tuple<int, int> indexStart = IndexParser.Parse(start);
             Tuple<int, int> indexEnd = IndexParser.Parse(end);
 
-            AtlasGridCalculation calc = AtlasGridCalculation.Value(start);
+            ICalculation calc = AtlasGridCalculation.Value(start);
 
             // + 1 because we have added the first value already above..
             for (var i = indexStart.Item2 + 1; i <= indexEnd.Item2; i++)
             {
                 string grid = IndexParser.Generate(indexStart.Item1, i);
 
-                calc = calc.Sum(grid);
+                // blah
+                calc = ((AtlasGridCalculation)calc).Sum(grid);
+            }
+
+            if (command == "AVERAGE")
+            {
+                calc = new Average(calc, indexEnd.Item2 - indexStart.Item2);
             }
 
             _calcs.Add(dest, calc);
@@ -42,7 +50,7 @@ namespace SpreadSheetTools.Transformer
 
         public int Get(string coord)
         {
-            AtlasGridCalculation calc;
+            ICalculation calc;
             if (_calcs.TryGetValue(coord, out calc))
             {
                 _data[coord] = calc.Eval(_data);

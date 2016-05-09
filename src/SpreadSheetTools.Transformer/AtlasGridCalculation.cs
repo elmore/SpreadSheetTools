@@ -20,7 +20,7 @@ namespace SpreadSheetTools.Transformer
     /// the creation of an object which can mutate data in a consistent way
     /// 
     /// </summary>
-    public abstract class AtlasGridCalculation
+    public abstract class AtlasGridCalculation : ICalculation
     {
         private readonly string _key;
         private readonly AtlasGridCalculation _chained;
