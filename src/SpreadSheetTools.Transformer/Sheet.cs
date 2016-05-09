@@ -50,10 +50,12 @@ namespace SpreadSheetTools.Transformer
 
         public int Get(string coord)
         {
-            ICalculation calc;
-            if (_calcs.TryGetValue(coord, out calc))
+            //ICalculation calc;
+            //if (_calcs.TryGetValue(coord, out calc))
+            //{
+            foreach(KeyValuePair<string, ICalculation> calc in _calcs)
             {
-                _data[coord] = calc.Eval(_data);
+                _data[calc.Key] = calc.Value.Eval(_data);
             }
 
             return _data[coord];

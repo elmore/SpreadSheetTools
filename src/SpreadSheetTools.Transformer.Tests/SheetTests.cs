@@ -84,26 +84,27 @@ namespace SpreadSheetTools.Transformer.Tests
         public void CanDefineCascadingCalculations()
         {
             var data = new Dictionary<string, int>
-            {
-                { "A1", 0 },
+            {                
                 { "A5", 1 },
                 { "A6", 2 },
                 { "A7", 3 },
                 { "A8", 4 },
                 { "A9", 5 },
                 { "A10", 3 },
+                { "A11", 0 },
+                { "A12", 0 },
             };
 
             var sheet = new Sheet();
 
-            sheet.Define("A1", "AVERAGE(A5:A10)"); // 3
-            sheet.Define("A1", "SUM(A1:A9)"); // 8
+            sheet.Define("A11", "AVERAGE(A5:A10)"); // 3
+            sheet.Define("A12", "SUM(A10:A11)"); // 8
 
             sheet.Load(data);
 
-            int val = sheet.Get("A1");
+            int val = sheet.Get("A12");
 
-            Assert.AreEqual(8, val);
+            Assert.AreEqual(6, val);
         }
 
     }
